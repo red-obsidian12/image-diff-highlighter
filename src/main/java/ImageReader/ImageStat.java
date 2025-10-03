@@ -23,21 +23,23 @@ public class ImageStat {
         String outputPath = args[2];
 
         int numThreads=Runtime.getRuntime().availableProcessors();
-        if (args.length == 5 && args[4].equals("-t")) {
-            try {
-                numThreads = Integer.parseInt(args[3]);
-                if (numThreads <= 0) {
-                    System.out.println("Il numero di thread deve essere un intero positivo.");
+        if (args.length == 5) {
+            if (args[4].equals("-t")) {
+                try {
+                    numThreads = Integer.parseInt(args[3]);
+                    if (numThreads <= 0) {
+                        System.out.println("Il numero di thread deve essere un intero positivo.");
+                        System.exit(1);
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Il parametro threads deve essere un numero intero.");
                     System.exit(1);
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Il parametro threads deve essere un numero intero.");
+            } else {
+                System.out.println("Utilizzo scorretto del parametro. Uso corretto:\n" +
+                        "java ImageStat.java img1 img2 output [-t threads]\n");
                 System.exit(1);
             }
-        } else {
-            System.out.println("Utilizzo scorretto del parametro. Uso corretto:\n" +
-                    "java ImageStat.java img1 img2 output [-t threads]\n");
-            System.exit(1);
         }
 
         // avvio del programma di confronto
@@ -54,6 +56,7 @@ public class ImageStat {
             int height = img1.getHeight();
 
             BufferedImage outImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
             MSEAccumulator accumulator = new MSEAccumulator();
 
             // i threads non possono superare l'altezza dell'immagine
