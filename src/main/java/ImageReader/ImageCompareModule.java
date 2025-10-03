@@ -29,7 +29,9 @@ public class ImageCompareModule implements Runnable {
 
     @Override
     public void run() {
+        long partialSum = 0;
         int w = img1.getWidth();
+        long startTime = System.currentTimeMillis(); // Fine
         for (int y = startRow; y < endRow; y++) {
             for (int x = 0; x < w; x++) {
                 int rgb1 = img1.getRGB(x, y);
@@ -51,7 +53,7 @@ public class ImageCompareModule implements Runnable {
 
                 // somma degli errori al quadrato (per MSE si sommerà su tutti i pixel e canali)
                 long sq = (long) dr * dr + (long) dg * dg + (long) db * db;
-                accumulator.add(sq);        // aggiorno accumulatore
+                partialSum = partialSum + sq;
 
                 // distanza per pixel come media delle differenze assolute sui tre canali
                 int avgAbsDiff = (Math.abs(dr) + Math.abs(dg) + Math.abs(db)) / 3;
@@ -64,6 +66,11 @@ public class ImageCompareModule implements Runnable {
                 output.setRGB(x, y, outRgb);
             }
         }
+
+        accumulator.add(partialSum);        // aggiorno accumulatore
+        long endTime = System.currentTimeMillis(); // Fine
+        long execTime = endTime - startTime;
+        System.out.printf(this.toString()+"Tempo totale di elaborazione: %d ms%n", execTime);
     }
 }
 

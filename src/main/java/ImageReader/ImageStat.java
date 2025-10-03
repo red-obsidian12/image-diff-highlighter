@@ -1,5 +1,7 @@
 package src.main.java.ImageReader;
 
+import src.main.java.ImageReader.IOStreamTools.PathParser;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +20,9 @@ public class ImageStat {
         }
 
         // leggo i percorsi delle immagini
-        String firstImagePath = args[0];
-        String secondImagePath = args[1];
-        String outputPath = args[2];
+        String firstImagePath = PathParser.normalizePath(args[0]);
+        String secondImagePath = PathParser.normalizePath(args[1]);
+        String outputPath = PathParser.normalizePath(args[2]);
 
         int numThreads=Runtime.getRuntime().availableProcessors();
         if (args.length == 5) {
@@ -43,6 +45,7 @@ public class ImageStat {
         }
 
         // avvio del programma di confronto
+        long startTime = System.currentTimeMillis(); // Inizio
         try {
             BufferedImage img1 = ImageIO.read(new File(firstImagePath));
             BufferedImage img2 = ImageIO.read(new File(secondImagePath));
@@ -99,5 +102,10 @@ public class ImageStat {
             System.out.println("Errore nella lettura delle immagini: " + e.getMessage());
             System.exit(1);
         }
+
+        long endTime = System.currentTimeMillis(); // Fine
+        long execTime = endTime - startTime;
+        System.out.printf("Tempo totale di elaborazione: %d ms%n", execTime);
+
     }
 }
