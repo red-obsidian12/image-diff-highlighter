@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Confronta un intervallo di righe [startRow, endRow) delle due immagini.
+ * Eslcude endRow.
  * Calcola la somma dei quadrati degli errori (da utilizzare poi in MSE) e scrive i pixel di output.
  */
 public class ImageCompareModule implements Runnable {

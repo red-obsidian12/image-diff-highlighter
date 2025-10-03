@@ -1,7 +1,5 @@
 package src.main.java.ImageReader;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
  * Accumulatore per somma degli errori al quadrato.
  *
