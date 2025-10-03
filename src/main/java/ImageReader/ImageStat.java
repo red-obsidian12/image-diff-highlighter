@@ -10,8 +10,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class ImageStat {
-    private long execTime;
-
     public static void main(String[] args) {
         // controllo argomenti
         if (args.length != 3 && args.length != 5) {

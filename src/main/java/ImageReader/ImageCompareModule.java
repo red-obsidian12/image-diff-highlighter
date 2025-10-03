@@ -70,7 +70,7 @@ public class ImageCompareModule implements Runnable {
         accumulator.add(partialSum);        // aggiorno accumulatore
         long endTime = System.currentTimeMillis(); // Fine
         long execTime = endTime - startTime;
-        System.out.printf(this.toString()+"Tempo totale di elaborazione: %d ms%n", execTime);
+        System.out.printf(this.toString()+"Tempo di elaborazione thread: %d ms%n", execTime);
     }
 }
 
