@@ -24,9 +24,9 @@ public class ImageStat {
 
         int numThreads=Runtime.getRuntime().availableProcessors();
         if (args.length == 5) {
-            if (args[4].equals("-t")) {
+            if (args[3].equals("-t")) {
                 try {
-                    numThreads = Integer.parseInt(args[3]);
+                    numThreads = Integer.parseInt(args[4]);
                     if (numThreads <= 0) {
                         System.out.println("Il numero di thread deve essere un intero positivo.");
                         System.exit(1);
