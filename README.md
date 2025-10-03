@@ -2,7 +2,8 @@
 
 ## Overview
 
-**ImageStat** is a Java application that compares two images of the same size and generates a third output image highlighting the differences. It also calculates the Mean Squared Error (MSE) between the two images, providing a quantitative measure of their similarity.
+**ImageStat** is a Java application that compares two images of the same size and generates a third output image highlighting the differences (useful to spot image quality loss after compression). 
+It also calculates the Mean Squared Error (MSE) between the two images, providing a quantitative measure of their similarity.
 
 ## Features
 
