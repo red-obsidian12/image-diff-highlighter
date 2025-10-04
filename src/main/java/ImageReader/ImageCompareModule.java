@@ -1,6 +1,5 @@
 package src.main.java.ImageReader;
 
-
 import java.awt.image.BufferedImage;
 
 /**
@@ -31,11 +30,20 @@ public class ImageCompareModule implements Runnable {
     public void run() {
         long partialSum = 0;
         int w = img1.getWidth();
+        int h = endRow - startRow;
+
+        // precarico settori di pixel su cui lavorare
+        int[] pixels1 = img1.getRGB(0, startRow, w, h, null, 0, w);
+        int[] pixels2 = img2.getRGB(0, startRow, w, h, null, 0, w);
+        int[] outputPixels = new int[w * h];
+
+
         long startTime = System.currentTimeMillis(); // Fine
-        for (int y = startRow; y < endRow; y++) {
+        for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-                int rgb1 = img1.getRGB(x, y);
-                int rgb2 = img2.getRGB(x, y);
+                int index = y * w + x;
+                int rgb1 = pixels1[index];
+                int rgb2 = pixels2[index];
 
                 // mascheratura per ottenere il valore dei canali
                 int r1 = (rgb1 >> 16) & 0xFF;
@@ -62,11 +70,14 @@ public class ImageCompareModule implements Runnable {
                 // Colore rosso crescente con la distanza (R,0,0).
                 // Significato: alpha a 255, R che dipende da avgAbsDiff, G=0, B=0
                 int outRgb = (255 << 24) | (avgAbsDiff << 16) | (0 << 8) | 0;
-                // Scrittura sul file di output
-                output.setRGB(x, y, outRgb);
+                // Scrittura sul buffer
+                outputPixels[index] = outRgb;
+                
             }
         }
-
+        
+        // ora scrivo l'output sull'immagine effettiva
+        output.setRGB(0, startRow, w, h, outputPixels, 0, w);
         accumulator.add(partialSum);        // aggiorno accumulatore
         long endTime = System.currentTimeMillis(); // Fine
         long execTime = endTime - startTime;

@@ -1,13 +1,12 @@
 package src.main.java.ImageReader;
 
-import src.main.java.ImageReader.IOStreamTools.PathParser;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import src.main.java.ImageReader.IOStreamTools.PathParser;
 
 public class ImageStat {
     public static void main(String[] args) {
