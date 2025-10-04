@@ -22,10 +22,12 @@ public class ImageStat {
         String outputPath = PathParser.normalizePath(args[2]);
 
         int numThreads=Runtime.getRuntime().availableProcessors();
+        boolean verbose = false;
         if (args.length == 5) {
             if (args[3].equals("-t")) {
                 try {
                     numThreads = Integer.parseInt(args[4]);
+                    verbose = true;
                     if (numThreads <= 0) {
                         System.out.println("Il numero di thread deve essere un intero positivo.");
                         System.exit(1);
@@ -74,8 +76,9 @@ public class ImageStat {
                     endRow = endRow + remainder;
                 }
 
-                ImageCompareModule worker = new ImageCompareModule(img1, img2, outImg, startRow, endRow, accumulator);
-                threads.add(new Thread(worker, "Thread-" + i));
+                ImageCompareModule worker;
+                worker = new ImageCompareModule(img1, img2, outImg, startRow, endRow, accumulator, i, verbose);
+                threads.add(new Thread(worker));
                 threads.getLast().start();
             }
 
@@ -102,7 +105,9 @@ public class ImageStat {
 
         long endTime = System.currentTimeMillis(); // Fine
         long execTime = endTime - startTime;
-        System.out.printf("Tempo totale di elaborazione: %d ms%n", execTime);
+        if(verbose) {
+            System.out.printf("Tempo totale di elaborazione delle immagini: %d ms%n", execTime);
+        }
 
     }
 }

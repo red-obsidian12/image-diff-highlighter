@@ -14,20 +14,25 @@ public class ImageCompareModule implements Runnable {
     private final int startRow;
     private final int endRow;
     private final MSEAccumulator accumulator;
+    private final int id;
+    private final boolean verbose;
 
     public ImageCompareModule(BufferedImage img1, BufferedImage img2,
                               BufferedImage output, int startRow, int endRow,
-                              MSEAccumulator accumulator) {
+                              MSEAccumulator accumulator, int id, boolean verbose) {
         this.img1 = img1;
         this.img2 = img2;
         this.output = output;
         this.startRow = startRow;
         this.endRow = endRow;
         this.accumulator = accumulator;
+        this.id = id;
+        this.verbose = verbose;
     }
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis(); // Fine
         long partialSum = 0;
         int w = img1.getWidth();
         int h = endRow - startRow;
@@ -38,7 +43,6 @@ public class ImageCompareModule implements Runnable {
         int[] outputPixels = new int[w * h];
 
 
-        long startTime = System.currentTimeMillis(); // Fine
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 int index = y * w + x;
@@ -81,7 +85,14 @@ public class ImageCompareModule implements Runnable {
         accumulator.add(partialSum);        // aggiorno accumulatore
         long endTime = System.currentTimeMillis(); // Fine
         long execTime = endTime - startTime;
-        System.out.printf(this.toString()+"Tempo di elaborazione thread: %d ms%n", execTime);
+        if (verbose) {
+            System.out.printf(this.toString() + ", time: %d ms%n", execTime);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ImageCompareModule-" + id + ", startRow=" + startRow + ", endRow="+(endRow-1);
     }
 }
 
