@@ -1,6 +1,6 @@
 package src.main.java.ImageReader.HeatMapStrategy;
 
-public class RedLogStrategy implements DistanceHighlightStrategy {
+public class LogStrategy implements DistanceHighlightStrategy {
     @Override
     public int computePixel(double distance) {
         double scaled = Math.log1p(distance) / Math.log1p(MAX_RGB_DISTANCE);

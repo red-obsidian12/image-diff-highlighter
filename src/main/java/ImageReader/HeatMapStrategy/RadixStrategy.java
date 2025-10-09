@@ -1,6 +1,6 @@
 package src.main.java.ImageReader.HeatMapStrategy;
 
-public class RedRadixStrategy implements DistanceHighlightStrategy {
+public class RadixStrategy implements DistanceHighlightStrategy {
     @Override
     public int computePixel(double distance) {
         int normDist = (int)(Math.sqrt(distance / MAX_RGB_DISTANCE) * 255 + 0.5);

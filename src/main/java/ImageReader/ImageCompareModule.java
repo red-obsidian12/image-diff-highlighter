@@ -40,7 +40,7 @@ public class ImageCompareModule implements Runnable {
         int w = img1.getWidth();
         int h = endRow - startRow;
         PixelDistanceHighlighter distanceHighlighter = new PixelDistanceHighlighter();
-        distanceHighlighter.setStrategy(new RedThresholdStrategy());
+        distanceHighlighter.setStrategy(new ThresholdStrategy());
 
         // precarico settori di pixel su cui lavorare
         int[] pixels1 = img1.getRGB(0, startRow, w, h, null, 0, w);
